@@ -1,0 +1,12 @@
+[Unit]
+Description=Cooling stand automation service
+After=multi-user.target
+
+[Service]
+User=root
+Type=simple
+Restart=always
+ExecStart=/root/wk/py310/bin/python /root/wk/cooling_system/cooling_stand_simple_relay.py
+
+[Install]
+WantedBy=multi-user.target

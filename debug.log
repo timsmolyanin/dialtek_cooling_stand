@@ -1,0 +1,18 @@
+2023-12-08T14:52:13.945799+0300 DEBUG MQTT client in Nextion MQTT Bridge started connect to broker
+2023-12-08T14:52:47.918621+0300 DEBUG MQTT client in Nextion MQTT Bridge started connect to broker
+2023-12-08T14:55:36.382449+0300 DEBUG MQTT client in Cooling system started connect to broker
+2023-12-08T14:56:20.975370+0300 DEBUG MQTT client in Cooling system started connect to broker
+2023-12-08T14:56:21.013251+0300 DEBUG Cooling system Connected to MQTT Broker!
+2023-12-08T14:57:11.518329+0300 DEBUG MQTT client in Cooling system started connect to broker
+2023-12-08T14:57:11.548193+0300 DEBUG Cooling system Connected to MQTT Broker!
+2023-12-08T14:58:13.811606+0300 DEBUG MQTT client in Cooling system started connect to broker
+2023-12-08T14:58:13.839516+0300 DEBUG Cooling system Connected to MQTT Broker!
+2023-12-08T15:03:33.230928+0300 DEBUG MQTT client in Cooling system started connect to broker
+2023-12-08T15:03:33.260888+0300 DEBUG Cooling system Connected to MQTT Broker!
+2023-12-08T15:04:20.205987+0300 DEBUG MQTT client in Cooling system started connect to broker
+2023-12-08T15:04:20.225804+0300 DEBUG Cooling system Connected to MQTT Broker!
+2023-12-08T18:22:29.799084+0300 DEBUG MQTT client in Cooling system started connect to broker
+2023-12-08T18:22:29.876656+0300 DEBUG Cooling system Connected to MQTT Broker!
+2023-12-08T18:29:20.976837+0300 DEBUG MQTT client in Cooling system started connect to broker
+2023-12-08T18:29:20.996526+0300 DEBUG Cooling system Connected to MQTT Broker!
+2023-12-10T14:23:12.564110+0300 DEBUG Cooling system Connected to MQTT Broker!
