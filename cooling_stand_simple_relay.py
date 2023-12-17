@@ -25,6 +25,11 @@ mqtt_topics_list = [("/devices/wb-w1/controls/28-00000ec5f529", 0),
                     ("/devices/CoolingSystem/controls/Down limit", 0),
                     ("/devices/CoolingSystem/controls/Up limit", 0),
                     ("/devices/CoolingSystem/controls/Wait time", 0),
+                    ("/devices/wb-w1/controls/28-00000ec5f529/meta/error", 0),
+                    ("/devices/wb-w1/controls/28-00000ec7b1ac/meta/error", 0),
+                    ("/devices/wb-w1/controls/28-00000ec76957/meta/error", 0),
+                    ("/devices/wb-w1/controls/28-00000ec5e8de/meta/error", 0),
+                    ("/devices/wb-w1/controls/28-00000ec7a9f9/meta/error", 0),
                     ]
 
 """
@@ -36,6 +41,13 @@ wb-w1/28-00000ec5f529 - DT8
 wb-w1/28-00000ec76957 - DT10
 wb-w1/28-00000ec7a9f9 - DT1
 wb-w1/28-00000ec7b1ac - DT9
+
+/devices/+/controls/+/meta/error topics can contain a combination of values:
+
+    r - read from device error
+    w - write to device error
+    p - read period miss
+    "" - everything fine
 
 """
 
@@ -121,73 +133,131 @@ class CoolingStandSimpleRelay(Thread):
             case "28-00000ec7a9f9":   # DT1
                 print(topic_name, topic_val)
                 print("Limits: ", self.up_limit, self.down_limit)
-                self.dt1_temperaure_value = float(topic_val)
-                if self.dt1_temperaure_value >= self.up_limit:
-                    self.current_state = 1
-                    self.mqtt_publish_topic("/devices/CoolingSystem/controls/Temp grow flag/on", 1)
-                    self.temp_grow_flag = True
-                    self.mqtt_publish_topic("/devices/CoolingSystem/controls/Current state/on", "Температура выше верхнего предела!")
-                    print("Температура выше верхнего предела!")
-                elif self.dt1_temperaure_value <= self.down_limit:
-                    self.current_state = 2
-                    self.mqtt_publish_topic("/devices/CoolingSystem/controls/Current state/on", "Температура ниже нижнего предела!")
-                    self.temp_grow_flag = False
-                    self.fans_on_state_count = 0
-                    self.mqtt_publish_topic("/devices/CoolingSystem/controls/Fans ON count/on", 0)
-                    print("Температура ниже нижнего предела!")
-                elif self.dt1_temperaure_value < self.up_limit and self.dt1_temperaure_value > self.down_limit:
-                    self.current_state = 0
-                    self.mqtt_publish_topic("/devices/CoolingSystem/controls/Current state/on", "Температура находится в установленных пределах")
-                    print("Температура находится в установленных пределах")
+                try:
+                    self.dt1_temperaure_value = float(topic_val)
+                    self.mqtt_publish_topic("/devices/CoolingSystem/controls/DT1 Status/on", 0)
+                    if self.dt1_temperaure_value >= self.up_limit:
+                        self.current_state = 1
+                        self.mqtt_publish_topic("/devices/CoolingSystem/controls/Temp grow flag/on", 1)
+                        self.temp_grow_flag = True
+                        self.mqtt_publish_topic("/devices/CoolingSystem/controls/Current state/on", "Температура выше верхнего предела!")
+                        print("Температура выше верхнего предела!")
+                    elif self.dt1_temperaure_value <= self.down_limit:
+                        self.current_state = 2
+                        self.mqtt_publish_topic("/devices/CoolingSystem/controls/Current state/on", "Температура ниже нижнего предела!")
+                        self.temp_grow_flag = False
+                        self.fans_on_state_count = 0
+                        self.mqtt_publish_topic("/devices/CoolingSystem/controls/Fans ON count/on", 0)
+                        print("Температура ниже нижнего предела!")
+                    elif self.dt1_temperaure_value < self.up_limit and self.dt1_temperaure_value > self.down_limit:
+                        self.current_state = 0
+                        self.mqtt_publish_topic("/devices/CoolingSystem/controls/Current state/on", "Температура находится в установленных пределах")
+                        print("Температура находится в установленных пределах")
+                except Exception as exc:
+                    self.mqtt_publish_topic("/devices/CoolingSystem/controls/DT1 Status/on", 1)
+                    logger.debug(f"DT1 Error. {exc}")
             case "A1_OUT":
-                relay_state = bool(int(topic_val))
-                if self.auto_mode:
-                    if relay_state:
-                        self.fans_on_state_count = 1
-                        self.mqtt_publish_topic("/devices/CoolingSystem/controls/Fans ON count/on", 1)
-                else:
-                    return
+                try:
+                    relay_state = bool(int(topic_val))
+                    if self.auto_mode:
+                        if relay_state:
+                            self.fans_on_state_count = 1
+                            self.mqtt_publish_topic("/devices/CoolingSystem/controls/Fans ON count/on", 1)
+                    else:
+                        return
+                except Exception as exc:
+                    logger.debug(f"A1_OUT error. {exc}")
             case "A2_OUT":
-                relay_state = bool(int(topic_val))
-                if self.auto_mode:
-                    if relay_state:
-                        self.fans_on_state_count = 2
-                        self.mqtt_publish_topic("/devices/CoolingSystem/controls/Fans ON count/on", 2)
-                else:
-                    return
+                try:
+                    relay_state = bool(int(topic_val))
+                    if self.auto_mode:
+                        if relay_state:
+                            self.fans_on_state_count = 2
+                            self.mqtt_publish_topic("/devices/CoolingSystem/controls/Fans ON count/on", 2)
+                    else:
+                        return
+                except Exception as exc:
+                    logger.debug(f"A2_OUT error. {exc}")
             case "A3_OUT":
-                relay_state = bool(int(topic_val))
-                if self.auto_mode:
-                    if relay_state:
-                        self.fans_on_state_count = 3
-                        self.mqtt_publish_topic("/devices/CoolingSystem/controls/Fans ON count/on", 3)
-                else:
-                    return
+                try:
+                    relay_state = bool(int(topic_val))
+                    if self.auto_mode:
+                        if relay_state:
+                            self.fans_on_state_count = 3
+                            self.mqtt_publish_topic("/devices/CoolingSystem/controls/Fans ON count/on", 3)
+                    else:
+                        return
+                except Exception as exc:
+                    logger.debug(f"A3_OUT error. {exc}")
             case "D1_OUT":
-                relay_state = bool(int(topic_val))
-                if self.auto_mode:
-                    if relay_state:
-                        self.fans_on_state_count = 4
-                        self.mqtt_publish_topic("/devices/CoolingSystem/controls/Fans ON count/on", 4)
-                else:
-                    return
+                try:
+                    relay_state = bool(int(topic_val))
+                    if self.auto_mode:
+                        if relay_state:
+                            self.fans_on_state_count = 4
+                            self.mqtt_publish_topic("/devices/CoolingSystem/controls/Fans ON count/on", 4)
+                    else:
+                        return
+                except Exception as exc:
+                    logger.debug(f"D1_OUT error. {exc}")
             case "Auto Mode":
-                self.auto_mode = bool(int(topic_val))
-                if self.auto_mode:
-                    debug_str = "Включен автоматический режим"
-                    self.mqtt_publish_topic("/devices/CoolingSystem/controls/Debug msg/on", debug_str)
-                else:
-                    debug_str = "Автоматический режим выключен"
-                    self.mqtt_publish_topic("/devices/CoolingSystem/controls/Debug msg/on", debug_str)
-                    self.switch_off_all_fans()
-                    self.fans_on_state_count = 0
-                    self.mqtt_publish_topic("/devices/CoolingSystem/controls/Fans ON count/on", 0)
+                try:
+                    self.auto_mode = bool(int(topic_val))
+                    if self.auto_mode:
+                        debug_str = "Включен автоматический режим"
+                        self.mqtt_publish_topic("/devices/CoolingSystem/controls/Debug msg/on", debug_str)
+                    else:
+                        debug_str = "Автоматический режим выключен"
+                        self.mqtt_publish_topic("/devices/CoolingSystem/controls/Debug msg/on", debug_str)
+                        self.switch_off_all_fans()
+                        self.fans_on_state_count = 0
+                        self.time_counter = 0
+                        self.mqtt_publish_topic("/devices/CoolingSystem/controls/Fans ON count/on", 0)
+                except Exception as exc:
+                    logger.debug(f"auto_mode error. {exc}")
             case "Down limit":
-                self.down_limit = float(topic_val)
+                try:
+                    self.down_limit = float(topic_val)
+                except Exception as exc:
+                    logger.debug(f"down_limit error. {exc}")
             case "Up limit":
-                self.up_limit = float(topic_val)
+                try:
+                    self.up_limit = float(topic_val)
+                except Exception as exc:
+                    logger.debug(f"up_limit error. {exc}")
             case "Wait time":
-                self.time_period = float(topic_val)
+                try:
+                    self.time_period = float(topic_val)
+                except Exception as exc:
+                    logger.debug(f"time_period error. {exc}")
+            case "28-00000ec5e8de":
+                try:
+                    dt6_temperaure_value = float(topic_val)
+                    self.mqtt_publish_topic("/devices/CoolingSystem/controls/DT6 Status/on", 0)
+                except Exception as exc:
+                    self.mqtt_publish_topic("/devices/CoolingSystem/controls/DT6 Status/on", 1)
+                    logger.debug(f"DT6 Error. {exc}")
+            case "28-00000ec5f529":
+                try:
+                    dt8_temperaure_value = float(topic_val)
+                    self.mqtt_publish_topic("/devices/CoolingSystem/controls/DT8 Status/on", 0)
+                except Exception as exc:
+                    self.mqtt_publish_topic("/devices/CoolingSystem/controls/DT8 Status/on", 1)
+                    logger.debug(f"DT8 Error. {exc}")
+            case "28-00000ec76957":
+                try:
+                    dt10_temperaure_value = float(topic_val)
+                    self.mqtt_publish_topic("/devices/CoolingSystem/controls/DT10 Status/on", 0)
+                except Exception as exc:
+                    self.mqtt_publish_topic("/devices/CoolingSystem/controls/DT10 Status/on", 1)
+                    logger.debug(f"DT10 Error. {exc}")
+            case "28-00000ec7b1ac":
+                try:
+                    dt9_temperaure_value = float(topic_val)
+                    self.mqtt_publish_topic("/devices/CoolingSystem/controls/DT9 Status/on", 0)
+                except Exception as exc:
+                    self.mqtt_publish_topic("/devices/CoolingSystem/controls/DT9 Status/on", 1)
+                    logger.debug(f"DT9 Error. {exc}")
 
     def mqtt_publish_topic(self, topic_name, topic_value):
         """
@@ -197,6 +267,8 @@ class CoolingStandSimpleRelay(Thread):
     def analyze_dt1_temp(self):
         if self.auto_mode:
             match self.current_state:
+                case 0:
+                    pass
                 case 1:
                     if self.fans_on_state_count == 0:
                         self.mqtt_publish_topic("/devices/wb-gpio/controls/A1_OUT/on", 1)
@@ -204,6 +276,8 @@ class CoolingStandSimpleRelay(Thread):
                         while self.time_counter < self.time_period:
                             if not self.auto_mode:
                                 break
+                            # if self.dt1_temperaure_value < self.up_limit:
+                            #     break
                             time.sleep(1)
                             self.time_counter += 1
                             self.mqtt_publish_topic("/devices/CoolingSystem/controls/Counter/on", self.time_counter)
@@ -216,7 +290,7 @@ class CoolingStandSimpleRelay(Thread):
                                 self.mqtt_publish_topic("/devices/wb-gpio/controls/A3_OUT/on", 1)
                             case 3:
                                 self.mqtt_publish_topic("/devices/wb-gpio/controls/D1_OUT/on", 1)
-                case 0 | 2:
+                case 2:
                     self.switch_off_all_fans()
                     return
         else:
