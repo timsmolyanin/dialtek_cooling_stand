@@ -154,7 +154,6 @@ class CoolingStandSimpleRelay(Thread):
                         self.mqtt_publish_topic("/devices/CoolingSystem/controls/Current state/on", "Температура находится в установленных пределах")
                         print("Температура находится в установленных пределах")
                 except Exception as exc:
-                    self.mqtt_publish_topic("/devices/CoolingSystem/controls/DT1 Status/on", 1)
                     logger.debug(f"DT1 Error. {exc}")
             case "A1_OUT":
                 try:
@@ -258,6 +257,35 @@ class CoolingStandSimpleRelay(Thread):
                 except Exception as exc:
                     self.mqtt_publish_topic("/devices/CoolingSystem/controls/DT9 Status/on", 1)
                     logger.debug(f"DT9 Error. {exc}")
+            case "error":
+                match topic_name[4]:
+                    case "28-00000ec7a9f9":
+                        if topic_val == "r":
+                            self.mqtt_publish_topic("/devices/CoolingSystem/controls/DT1 Status/on", 1)
+                        elif topic_val == "":
+                            self.mqtt_publish_topic("/devices/CoolingSystem/controls/DT1 Status/on", 0)
+                    case "28-00000ec5e8de":
+                        if topic_val == "r":
+                            self.mqtt_publish_topic("/devices/CoolingSystem/controls/DT6 Status/on", 1)
+                        elif topic_val == "":
+                            self.mqtt_publish_topic("/devices/CoolingSystem/controls/DT6 Status/on", 0)
+                    case "28-00000ec5f529":
+                        if topic_val == "r":
+                            self.mqtt_publish_topic("/devices/CoolingSystem/controls/DT8 Status/on", 1)
+                        elif topic_val == "":
+                            self.mqtt_publish_topic("/devices/CoolingSystem/controls/DT8 Status/on", 0)
+                    case "28-00000ec76957":
+                        if topic_val == "r":
+                            self.mqtt_publish_topic("/devices/CoolingSystem/controls/DT10 Status/on", 1)
+                        elif topic_val == "":
+                            self.mqtt_publish_topic("/devices/CoolingSystem/controls/DT10 Status/on", 0)
+                    case "28-00000ec7b1ac":
+                        if topic_val == "r":
+                            self.mqtt_publish_topic("/devices/CoolingSystem/controls/DT9 Status/on", 1)
+                        elif topic_val == "":
+                            self.mqtt_publish_topic("/devices/CoolingSystem/controls/DT9 Status/on", 0)
+
+
 
     def mqtt_publish_topic(self, topic_name, topic_value):
         """
