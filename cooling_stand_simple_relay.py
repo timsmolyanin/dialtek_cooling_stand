@@ -158,11 +158,8 @@ class CoolingStandSimpleRelay(Thread):
                     relay_state = bool(int(topic_val))
                     if self.auto_mode:
                         if relay_state:
-                            self.fans_on_state_count += 1
+                            self.fans_on_state_count = 1
                             self.mqtt_publish_topic("/devices/CoolingSystem/controls/Fans ON count/on", 1)
-                        else:
-                            self.fans_on_state_count -= 1
-                            self.mqtt_publish_topic("/devices/CoolingSystem/controls/Fans ON count/on", self.fans_on_state_count)
                 except Exception as exc:
                     logger.debug(f"A1_OUT error. {exc}")
             case "A2_OUT":
@@ -170,11 +167,8 @@ class CoolingStandSimpleRelay(Thread):
                     relay_state = bool(int(topic_val))
                     if self.auto_mode:
                         if relay_state:
-                            self.fans_on_state_count += 1
+                            self.fans_on_state_count = 2
                             self.mqtt_publish_topic("/devices/CoolingSystem/controls/Fans ON count/on", 2)
-                        else:
-                            self.fans_on_state_count -= 1
-                            self.mqtt_publish_topic("/devices/CoolingSystem/controls/Fans ON count/on", self.fans_on_state_count)
                 except Exception as exc:
                     logger.debug(f"A2_OUT error. {exc}")
             case "A3_OUT":
@@ -182,11 +176,8 @@ class CoolingStandSimpleRelay(Thread):
                     relay_state = bool(int(topic_val))
                     if self.auto_mode:
                         if relay_state:
-                            self.fans_on_state_count += 1
+                            self.fans_on_state_count = 3
                             self.mqtt_publish_topic("/devices/CoolingSystem/controls/Fans ON count/on", 3)
-                        else:
-                            self.fans_on_state_count -= 1
-                            self.mqtt_publish_topic("/devices/CoolingSystem/controls/Fans ON count/on", self.fans_on_state_count)
                 except Exception as exc:
                     logger.debug(f"A3_OUT error. {exc}")
             case "D1_OUT":
@@ -194,11 +185,8 @@ class CoolingStandSimpleRelay(Thread):
                     relay_state = bool(int(topic_val))
                     if self.auto_mode:
                         if relay_state:
-                            self.fans_on_state_count += 1
+                            self.fans_on_state_count = 4
                             self.mqtt_publish_topic("/devices/CoolingSystem/controls/Fans ON count/on", 4)
-                        else:
-                            self.fans_on_state_count -= 1
-                            self.mqtt_publish_topic("/devices/CoolingSystem/controls/Fans ON count/on", self.fans_on_state_count)
                 except Exception as exc:
                     logger.debug(f"D1_OUT error. {exc}")
             case "Auto Mode":
