@@ -81,8 +81,9 @@ class CoolingStandSimpleRelay(Thread):
         while True:
             try:
                 self.analyze_dt1_temp()
+                time.sleep(1)
             except Exception as exc:
-                print("mqtt thread run", exc)
+                logger.debug("Thread exception: ", exc)
 
     def connect_mqtt(self, whois: str) -> mqtt:
         """
@@ -114,7 +115,7 @@ class CoolingStandSimpleRelay(Thread):
             client.subscribe(self.mqtt_topic_list) 
             client.on_message = self.on_message
         except Exception as e:
-            print(e)
+            logger.debug(f"MQTT subscribe failed: ", e)
     
     def mqtt_start(self):
         """
@@ -131,8 +132,6 @@ class CoolingStandSimpleRelay(Thread):
         topic_val = msg.payload.decode("utf-8")
         match topic_name[-1]:
             case "28-00000ec7a9f9":   # DT1
-                print(topic_name, topic_val)
-                print("Limits: ", self.up_limit, self.down_limit)
                 try:
                     self.dt1_temperaure_value = float(topic_val)
                     self.mqtt_publish_topic("/devices/CoolingSystem/controls/DT1 Status/on", 0)
