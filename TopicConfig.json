@@ -1,0 +1,53 @@
+{
+	
+
+	"MeasureModuleConfigs":{
+		"CH1 SensorModel": {
+			"Condition": "False",
+			"Cmd": ["MainMenu.TXT_CHANNEL1.txt="]
+		},
+		"CH2 SensorModel": {
+			"Condition": "False",
+			"Cmd": ["MainMenu.TXT_CHANNEL2.txt="]
+		}	
+	},
+	"PIDControl": {
+		"CH1 MeasureModule Current Setpoint": {
+			"Condition": "False",
+			"Cmd": ["MainMenu.TXT_CH1SET.txt=", "SensorsSett.CH1_SET_TEMP.txt="]
+		}
+	},
+	"HeaterModule": {
+		"Output Voltage State": {
+			"Condition": "True",
+			"0": ["MainMenu.BUT_HEATER_ON.picc=33", "MainMenu.BUT_HEATER_ON.picc2=32", "MainMenu.BUT_HEATER_OFF.picc=33", "MainMenu.BUT_HEATER_OFF.picc2=34",
+				  "HeaterSett.BUT_HEATER_ON.picc=33", "HeaterSett.BUT_HEATER_ON.picc2=32", "HeaterSett.BUT_HEATER_OFF.picc=33", "HeaterSett.BUT_HEATER_OFF.picc2=34"],
+			"1": ["MainMenu.BUT_HEATER_ON.picc=31", "MainMenu.BUT_HEATER_ON.picc2=32", "MainMenu.BUT_HEATER_OFF.picc=31", "MainMenu.BUT_HEATER_OFF.picc2=34",
+				  "HeaterSett.BUT_HEATER_ON.picc=31", "HeaterSett.BUT_HEATER_ON.picc2=32", "HeaterSett.BUT_HEATER_OFF.picc=31", "HeaterSett.BUT_HEATER_OFF.picc2=34"]
+		}
+	},
+	"network": {
+		"Ethernet 2 IP": {
+			"Condition": "False",
+			"Cmd": ["NetworkSett.TXT_ETH_IP.txt="]
+		},
+		"Wi-Fi IP": {
+			"Condition": "False",
+			"Cmd": ["NetworkSett.TXT_WIFI_IP.txt="]
+		}
+	},
+	"SystemModule": {
+		"Config Files List": {
+			"Condition": "False",
+			"Cmd": ["ConffileSett.FILE_SELECT.path="]
+		},
+		"Rescaled Temp1": {
+			"Condition": "False",
+			"Cmd": ["Graph.ch1_temp.txt="]
+		},
+		"Rescaled Temp2": {
+			"Condition": "False",
+			"Cmd": ["Graph.ch2_temp.txt="]
+		}
+	}
+}
