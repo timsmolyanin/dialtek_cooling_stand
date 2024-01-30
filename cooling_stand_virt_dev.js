@@ -65,6 +65,31 @@ defineVirtualDevice("CoolingSystem", {
       type: "int",
       value: 0,
       readonly: false
-      }
+      },
+      "DT1 Value": {
+      type: "float",
+      value: 0,
+      readonly: false
+      },
+      "DT8 Value": {
+      type: "float",
+      value: 0,
+      readonly: false
+      },
+      "DT9 Value": {
+      type: "float",
+      value: 0,
+      readonly: false
+      },
+      "DT10 Value": {
+      type: "float",
+      value: 0,
+      readonly: false
+      },
+      "DT6 Value": {
+      type: "float",
+      value: 0,
+      readonly: false
+      },
     }
   });

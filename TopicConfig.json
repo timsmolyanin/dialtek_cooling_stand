@@ -1,53 +1,71 @@
 {
-	
-
-	"MeasureModuleConfigs":{
-		"CH1 SensorModel": {
-			"Condition": "False",
-			"Cmd": ["MainMenu.TXT_CHANNEL1.txt="]
-		},
-		"CH2 SensorModel": {
-			"Condition": "False",
-			"Cmd": ["MainMenu.TXT_CHANNEL2.txt="]
-		}	
-	},
-	"PIDControl": {
-		"CH1 MeasureModule Current Setpoint": {
-			"Condition": "False",
-			"Cmd": ["MainMenu.TXT_CH1SET.txt=", "SensorsSett.CH1_SET_TEMP.txt="]
-		}
-	},
-	"HeaterModule": {
-		"Output Voltage State": {
+	"wb-gpio":{
+		"A1_OUT": {
 			"Condition": "True",
-			"0": ["MainMenu.BUT_HEATER_ON.picc=33", "MainMenu.BUT_HEATER_ON.picc2=32", "MainMenu.BUT_HEATER_OFF.picc=33", "MainMenu.BUT_HEATER_OFF.picc2=34",
-				  "HeaterSett.BUT_HEATER_ON.picc=33", "HeaterSett.BUT_HEATER_ON.picc2=32", "HeaterSett.BUT_HEATER_OFF.picc=33", "HeaterSett.BUT_HEATER_OFF.picc2=34"],
-			"1": ["MainMenu.BUT_HEATER_ON.picc=31", "MainMenu.BUT_HEATER_ON.picc2=32", "MainMenu.BUT_HEATER_OFF.picc=31", "MainMenu.BUT_HEATER_OFF.picc2=34",
-				  "HeaterSett.BUT_HEATER_ON.picc=31", "HeaterSett.BUT_HEATER_ON.picc2=32", "HeaterSett.BUT_HEATER_OFF.picc=31", "HeaterSett.BUT_HEATER_OFF.picc2=34"]
+			"0": ["Scheme.COOLER_ST_1.picc=4", "Table.Q_COOLER_1.picc=6"],
+			"1": ["Scheme.COOLER_ST_1.picc=3", "Table.Q_COOLER_1.picc=7"]
+		},
+		"A2_OUT": {
+			"Condition": "True",
+			"0": ["Scheme.COOLER_ST_2.picc=4", "Table.Q_COOLER_2.picc=6"],
+			"1": ["Scheme.COOLER_ST_2.picc=3", "Table.Q_COOLER_2.picc=7"]
+		},
+		"A3_OUT": {
+			"Condition": "True",
+			"0": ["Scheme.COOLER_ST_3.picc=4", "Table.Q_COOLER_3.picc=6"],
+			"1": ["Scheme.COOLER_ST_3.picc=3", "Table.Q_COOLER_3.picc=7"]
+		},
+		"D1_OUT": {
+			"Condition": "True",
+			"0": ["Scheme.COOLER_ST_4.picc=4", "Table.Q_COOLER_4.picc=6"],
+			"1": ["Scheme.COOLER_ST_4.picc=3", "Table.Q_COOLER_4.picc=7"]
 		}
 	},
-	"network": {
-		"Ethernet 2 IP": {
+	"CoolingSystem": {
+		"DT1 Value": {
 			"Condition": "False",
-			"Cmd": ["NetworkSett.TXT_ETH_IP.txt="]
+			"Cmd": ["Scheme.TXT_TEMP_DT1.txt=", "Table.TXT_TEMP_DT1.txt="]
 		},
-		"Wi-Fi IP": {
+		"DT6 Value": {
 			"Condition": "False",
-			"Cmd": ["NetworkSett.TXT_WIFI_IP.txt="]
-		}
-	},
-	"SystemModule": {
-		"Config Files List": {
-			"Condition": "False",
-			"Cmd": ["ConffileSett.FILE_SELECT.path="]
+			"Cmd": ["Scheme.TXT_TEMP_DT6.txt=", "Table.TXT_TEMP_DT6.txt="]
 		},
-		"Rescaled Temp1": {
+		"DT8 Value": {
 			"Condition": "False",
-			"Cmd": ["Graph.ch1_temp.txt="]
+			"Cmd": ["Scheme.TXT_TEMP_DT8.txt=", "Table.TXT_TEMP_DT8.txt="]
 		},
-		"Rescaled Temp2": {
+		"DT9 Value": {
 			"Condition": "False",
-			"Cmd": ["Graph.ch2_temp.txt="]
+			"Cmd": ["Scheme.TXT_TEMP_DT9.txt=", "Table.TXT_TEMP_DT9.txt="]
+		},
+		"DT10 Value": {
+			"Condition": "False",
+			"Cmd": ["Scheme.TXT_TEMP_DT10.txt=", "Table.TXT_TEMP_DT10.txt="]
+		},
+		"Auto Mode": {
+			"Condition": "True",
+			"0": ["Scheme.BUT1.picc=4"],
+			"1": ["Scheme.BUT1.picc=9"]
+		},
+		"Down limit": {
+			"Condition": "False",
+			"Cmd": ["Service.TXT_DWN_LIM_MN.txt="]
+		},
+		"Up limit": {
+			"Condition": "False",
+			"Cmd": ["Service.TXT_UP_LIM_MON.txt="]
+		},
+		"Wait time": {
+			"Condition": "False",
+			"Cmd": ["Service.TXT_WAIT_MON.txt="]
+		},
+		"Counter": {
+			"Condition": "False",
+			"Cmd": ["Service.TXT_COUNTER.txt="]
+		},
+		"Current state": {
+			"Condition": "False",
+			"Cmd": ["Table.TXT_STATUS.txt="]
 		}
 	}
 }

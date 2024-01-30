@@ -301,6 +301,7 @@ def test_main():
     cooling_stand_simple_relay.mqtt_start()
     cooling_stand_simple_relay.start()
 
+    
 
 
 if __name__ == "__main__":

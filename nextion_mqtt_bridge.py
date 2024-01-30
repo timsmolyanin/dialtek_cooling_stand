@@ -32,6 +32,7 @@ class NextionMqttBridge(Thread):
         self.__serial_port_obj = None
 
         config_file_path = "TopicConfig.json"
+        # config_file_path = "/root/wk/cooling_system/TopicConfig.json"
         config_file = open(config_file_path)
         config = json.loads(config_file.read())
 
@@ -159,8 +160,9 @@ class NextionMqttBridge(Thread):
     
 
     def send_welcome_msg(self):
-        next_page_cmd = "page MainMenu"
-        self.serial_write(next_page_cmd)
+        pass
+        # next_page_cmd = "page MainMenu"
+        # self.serial_write(next_page_cmd)
 
 
     def on_message(self, client, userdata, msg):
@@ -191,10 +193,10 @@ class NextionMqttBridge(Thread):
 
 
 def test():
-    # comport = "COM10"
-    comport = "/dev/ttyS4"
-    baudrate = 115200
-    broker = "127.0.0.1"
+    comport = "COM7"
+    # comport = "/dev/ttyS4"
+    baudrate = 9600
+    broker = "192.168.1.71"
     # broker = "127.0.0.1"
     port = 1883
     nextion_mqtt_bridge = NextionMqttBridge(mqtt_port=port, mqtt_broker=broker, mqtt_passw=None, mqtt_user=None,
